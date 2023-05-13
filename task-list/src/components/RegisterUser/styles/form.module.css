@@ -1,0 +1,7 @@
+.containerForm {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 30rem;
+  border: 1px black solid;
+}
