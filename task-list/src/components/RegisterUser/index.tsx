@@ -1,7 +1,8 @@
-import { CircularProgress } from '@mui/material'
+import { useState } from 'react'
 
 // Components
 import { Form } from './components/Form'
+import { Success } from './components/Success'
 
 // Services
 import { createNewUser } from '../../services/users'
@@ -10,19 +11,28 @@ import { createNewUser } from '../../services/users'
 import { UserData } from './types'
 
 // Styles and images
-import styles from './styles/register.module.css'  
+import styles from './styles/register.module.css'
 
 export function RegisterUser() {
+  const [userCreated, setUserCreated] = useState(false)
+
   async function handleCreateUser(user: UserData): Promise<void> {
     await createNewUser(user)
+    setUserCreated(true)
   }
 
   return (
     <div className={styles.containerRegister}>
-      <h1>
-        Cadastro
-      </h1>
-      <Form createUser={handleCreateUser}/>
+      {
+        userCreated ?
+          <Success /> :
+          <>
+            <h1>
+              Cadastro
+            </h1>
+            <Form createUser={handleCreateUser} />
+          </>
+      }
     </div>
   )
 }
