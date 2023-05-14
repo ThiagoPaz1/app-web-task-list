@@ -3,13 +3,18 @@ import { Snackbar, Alert } from '@mui/material'
 // Types
 import { AlertProps } from './types'
 
-export function AlertComponent({ description, open, handleClose, severity }: AlertProps) {
+export function AlertComponent({
+  description,
+  open,
+  handleClose,
+  severity,
+  autoHideDuration }: AlertProps) {
   return (
     <Snackbar
       open={open}
-      autoHideDuration={6000}
       onClose={handleClose}
       anchorOrigin={{ vertical: "top", horizontal: "center" }}
+      autoHideDuration={autoHideDuration ? autoHideDuration: 5000}
     >
       <Alert
         onClose={handleClose}

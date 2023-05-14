@@ -1,7 +1,8 @@
-import { FormLoginProps, UserDataForLogin, ErrorInFields } from './formLogin'
+import { FormLoginProps, UserDataForLogin } from './formLogin'
+import { FoundError } from './login'
 
 export {
   FormLoginProps,
   UserDataForLogin,
-  ErrorInFields
+  FoundError
 }

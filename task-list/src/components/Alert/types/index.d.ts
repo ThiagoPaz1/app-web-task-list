@@ -3,6 +3,7 @@ export type AlertProps = {
   open: boolean
   severity: SeverityType
   description: string
+  autoHideDuration?: number
 }
 
 type SeverityType = 'error' | 'info' | 'warning' | 'success'

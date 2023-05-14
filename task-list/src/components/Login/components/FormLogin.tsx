@@ -2,15 +2,14 @@ import { useState } from 'react'
 import { TextField, Button } from '@mui/material'
 
 // Types
-import { FormLoginProps, UserDataForLogin, ErrorInFields } from '../types'
+import { FormLoginProps, UserDataForLogin } from '../types'
 import { ChangeInput } from '../../../@types'
 
 // Styles
 import styles from '../styles/formLogin.module.css'
 
-export function FormLogin({ singIn }: FormLoginProps) {
+export function FormLogin({ singIn, foundError }: FormLoginProps) {
   const [userDataForLogin, setUserDataForLogin] = useState<UserDataForLogin>({} as UserDataForLogin)
-  const [errorInFields, setErrorInFields] = useState<ErrorInFields>({} as ErrorInFields)
 
   function handleChange(event: ChangeInput): void {
     const { value, name } = event.target
@@ -24,21 +23,12 @@ export function FormLogin({ singIn }: FormLoginProps) {
   function verifyIsOkFieldsValues(userData: UserDataForLogin): boolean {
     const { email, password } = userData
     
-    if (!email) {
-      setErrorInFields({
-        ...errorInFields,
-        email: userData.email
-      })
-    }
-
-    if (!password) {
-      setErrorInFields({
-        ...errorInFields,
-        password: userData.password
-      })
-    }
-
     if (!email || !password) {
+      foundError({
+        found: true,
+        descriptionError: 'Todos os campos são de preenchimento obrigatório'
+      })
+
       return false
     } else {
       return true
@@ -60,7 +50,6 @@ export function FormLogin({ singIn }: FormLoginProps) {
         variant="outlined"
         margin="normal"
         size="small"
-
         onChange={(event: ChangeInput) => handleChange(event)}
         fullWidth
       />
@@ -82,8 +71,10 @@ export function FormLogin({ singIn }: FormLoginProps) {
         variant="contained"
         onClick={handleSingIn}
         sx={{
-          width: '15rem',
-          marginTop: '1rem'
+          width: '10rem',
+          marginTop: '1rem',
+          fontWeight: 'bolder',
+          fontSize: '1em'
         }}
       >
         Entrar

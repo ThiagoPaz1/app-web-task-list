@@ -1,3 +1,5 @@
+import { Login } from '../../components/Login'
+
 export function LoginPage() {
-  return <h1>Page de login</h1>
+  return <Login />
 }
