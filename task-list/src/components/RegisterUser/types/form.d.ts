@@ -1,5 +1,5 @@
 export type FormProps = {
-  handleCreateUser: (user: UserData) => void
+  createUser: (user: UserData) => void
 }
 
 export type UserData = {
@@ -8,8 +8,10 @@ export type UserData = {
   password: string
 }
 
-export type ErrorInField = {
-  name: boolean
-  email: boolean
-  password: boolean
+export type ErrorInFields = {
+  name?: FieldErrorValues
+  email?: FieldErrorValues
+  password?: FieldErrorValues
 }
+
+type FieldErrorValues = 'notVerified' | 'verifiedOk' | 'errorFound' 

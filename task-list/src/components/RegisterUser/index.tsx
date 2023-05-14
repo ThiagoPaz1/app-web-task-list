@@ -14,10 +14,7 @@ export function RegisterUser() {
       <h1>
         Cadastro
       </h1>
-      <input type="text" />
-      <Form
-        handleCreateUser={handleCreateUser}
-      />
+      <Form createUser={handleCreateUser}/>
     </div>
   )
 }

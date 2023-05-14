@@ -3,5 +3,13 @@
   flex-direction: column;
   align-items: center;
   width: 30rem;
-  border: 1px black solid;
+}
+
+.containerButtonRegister {
+  width: 15rem;
+  margin-top: 1rem;
+}
+
+.buttonRegister {
+  font-weight: bolder;
 }

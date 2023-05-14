@@ -1,6 +1,7 @@
-import { FormProps, ErrorInField } from './form'
+import { FormProps, ErrorInFields, UserData } from './form'
 
 export {
-  ErrorInField,
-  FormProps
+  ErrorInFields,
+  FormProps,
+  UserData
 }
