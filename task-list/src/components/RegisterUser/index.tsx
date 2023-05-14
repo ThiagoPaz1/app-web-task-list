@@ -1,4 +1,3 @@
-import { useEffect } from 'react'
 import { CircularProgress } from '@mui/material'
 
 // Components
@@ -15,8 +14,7 @@ import styles from './styles/register.module.css'
 
 export function RegisterUser() {
   async function handleCreateUser(user: UserData): Promise<void> {
-    const response = await createNewUser(user)
-    console.log(await response.json())
+    await createNewUser(user)
   }
 
   return (

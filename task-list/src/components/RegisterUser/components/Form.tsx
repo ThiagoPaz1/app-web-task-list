@@ -1,6 +1,11 @@
 import { useState, useEffect } from 'react'
-import { TextField } from '@mui/material'
-import { Button } from '@mui/material'
+import { TextField, CircularProgress, Button } from '@mui/material'
+
+// Components
+import { AlertComponent } from './Alert'
+
+// Services
+import { getUserByEmail } from '../../../services/users'
 
 // Types
 import { FormProps, ErrorInFields, UserData } from '../types'
@@ -18,7 +23,9 @@ const defautlValuesErrorInField: ErrorInFields = {
 export function Form({ createUser }: FormProps) {
   const [userData, setUserData] = useState<UserData>({} as UserData)
   const [errorInField, setErrorInField] = useState<ErrorInFields>(defautlValuesErrorInField)
-
+  const [emailAlreadyExists, setEmailAlreadyExists] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
+  
   useEffect(() => {
     validateFieldsValues(userData)
   }, [userData])
@@ -32,9 +39,9 @@ export function Form({ createUser }: FormProps) {
     })
   }
 
-  function validateFieldsValues(userData: UserData): void {
+  function validateFieldsValues(userData: UserData) {
     const { name, email, password } = userData
-    const checkEmail = errorInField.email === 'errorFound' || errorInField.email === 'verifiedOk'
+    const checkErrorValueEmail = errorInField.email === 'errorFound' || errorInField.email === 'verifiedOk'
     const validateEmail = /\S+@\S+\.\S+/
 
     if (name?.length < 2) {
@@ -55,7 +62,7 @@ export function Form({ createUser }: FormProps) {
         email: 'errorFound'
       })
     }
-    else if (checkEmail && !email) {
+    else if (checkErrorValueEmail && !email) {
       setErrorInField({
         ...errorInField,
         email: 'errorFound'
@@ -78,7 +85,6 @@ export function Form({ createUser }: FormProps) {
         ...errorInField,
         password: 'verifiedOk'
       })
-
     }
   }
 
@@ -91,12 +97,40 @@ export function Form({ createUser }: FormProps) {
     }
   }
 
-  function handleRegisterUser() {
-    createUser(userData)
+  async function handleRegisterUser() {
+    setIsLoading(true)
+
+    const verify = await checkIfExitsEmail()
+
+    setIsLoading(false)
+
+    if (!verify) {
+      createUser(userData)
+    }
+  }
+
+  async function checkIfExitsEmail(): Promise<boolean> {
+    const response = await getUserByEmail(userData.email)
+    const data = response.data
+
+    if (data) {
+      setEmailAlreadyExists(true)
+      return true
+    } else {
+      return false
+    }
   }
 
   return (
     <form className={styles.containerForm}>
+      {
+        emailAlreadyExists &&
+        <AlertComponent
+          open={emailAlreadyExists}
+          handleClose={() => setEmailAlreadyExists(false)}
+        />
+      }
+            
       <TextField
         value={userData.name}
         id="outlined-basic"
@@ -120,7 +154,7 @@ export function Form({ createUser }: FormProps) {
         margin="normal"
         size="small"
         error={errorInField.email === 'errorFound'}
-        helperText={(errorInField.email === 'errorFound') && "Digite um e-mail válido"}
+        helperText={(errorInField.email === 'errorFound') && 'Digite um e-mail válido'}
         onChange={(event: ChangeInput) => handleChange(event)}
         fullWidth
       />
@@ -140,19 +174,23 @@ export function Form({ createUser }: FormProps) {
         fullWidth
       />
 
-      <div className={styles.containerButtonRegister}>
-        <Button
-          fullWidth
-          size="large"
-          variant="contained"
-          onClick={handleRegisterUser}
-          disabled={buttonDisabled() ? true : false}
-        >
-          <span className={styles.buttonRegister}>
-            cadastrar
-          </span>
-        </Button>
-      </div>
+      {
+        isLoading ?
+          <CircularProgress /> :
+          <div className={styles.containerButtonRegister}>
+            <Button
+              fullWidth
+              size="large"
+              variant="contained"
+              onClick={handleRegisterUser}
+              disabled={buttonDisabled() ? true : false}
+            >
+              <span className={styles.buttonRegister}>
+                cadastrar
+              </span>
+            </Button>
+          </div>
+      }
     </form>
   )
 }
