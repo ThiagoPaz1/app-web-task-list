@@ -1,9 +1,9 @@
 import { Snackbar, Alert } from '@mui/material'
 
 // Types
-import { AlertProps } from '../types'
+import { AlertProps } from './types'
 
-export function AlertComponent({ open, handleClose }: AlertProps) {
+export function AlertComponent({ description, open, handleClose, severity }: AlertProps) {
   return (
     <Snackbar
       open={open}
@@ -13,10 +13,10 @@ export function AlertComponent({ open, handleClose }: AlertProps) {
     >
       <Alert
         onClose={handleClose}
-        severity="error"
+        severity={severity}
         variant="filled"
       >
-        Este email já esta sendo usado
+        { description }
       </Alert>
     </Snackbar>
   )
