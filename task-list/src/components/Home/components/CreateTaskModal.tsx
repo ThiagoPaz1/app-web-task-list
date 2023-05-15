@@ -12,6 +12,9 @@ import { SuccessTask } from './SuccessTask'
 // Services
 import { createNewTask } from '../../../services/tasks'
 
+// Hooks and contexts
+import { useUserDataSession } from '../../../hooks/useUserDataSession'
+
 // Types
 import { CreateTaskModalProps, TaskData, ErrorInFields } from '../types'
 import { ChangeInput } from '../../../@types'
@@ -29,6 +32,11 @@ export function CreateTaskModal({ openModal, closeModal, token }: CreateTaskModa
   const [errorInField, setErrorInField] = useState<ErrorInFields>(defautlValuesErrorInField)
   const [isLoading, setIsLoading] = useState(false)
   const [taskCreated, setTaskCreated] = useState(false)
+  const { verifyAuthentication } = useUserDataSession()
+
+  useEffect(() => {
+    verifyAuthentication()
+  }, [])
 
   useEffect(() => {
     validateFieldsValues(taskData)

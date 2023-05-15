@@ -2,14 +2,7 @@ import { AxiosError } from 'axios'
 
 import { instanceTask } from '../instance'
 
-// Types
-import { Task } from '../../@types'
-
-type TasksWithPagination = {
-  tasksTotal: number
-  totalPages: number
-  tasks: Task[]
-}
+import { TasksWithPagination } from '../../@types'
 
 type ResposeCode = number
 

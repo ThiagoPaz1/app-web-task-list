@@ -1,12 +1,14 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useContext } from 'react'
 import { Button } from '@mui/material'
 
 // Components
 import { Profile } from './components/Profile'
 import { CreateTaskModal } from './components/CreateTaskModal'
+import { TaskList } from './components/TaskList'
 
 // Hooks and contexts
 import { useUserDataSession } from '../../hooks/useUserDataSession'
+import { TaskContext } from '../../context/taskContext'
 
 // Styles and images
 import styles from './styles/home.module.css'
@@ -14,10 +16,14 @@ import styles from './styles/home.module.css'
 export function Home() {
   const [showCreateTaskModal, setShowCreateTaskModal] = useState(false)
   const { verifyAuthentication, userData, token } = useUserDataSession()
+  const { getTasks, tasks } = useContext(TaskContext)
 
   useEffect(() => {
     verifyAuthentication()
+    getTasks()
   }, [])
+
+  console.log("tarefas =>>>>>>>", tasks)
 
   return (
     <div className={styles.containerHome}>
@@ -37,6 +43,7 @@ export function Home() {
         </Button>
       </div>
 
+      <TaskList tasks={[]}/>
 
       {
         showCreateTaskModal &&
