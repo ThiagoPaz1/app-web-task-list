@@ -1,6 +1,6 @@
 import { AxiosError } from 'axios'
 
-import { instance } from '../instance'
+import { instanceTask } from '../instance'
 
 // Types
 import { Task } from '../../@types'
@@ -14,11 +14,12 @@ type TasksWithPagination = {
 type ResposeCode = number
 
 export async function getAllTasksWithPagination(
+  token: string,
   page?: string,
   pageSize?: string,
-  token?: string): Promise<TasksWithPagination | ResposeCode> {
+  ): Promise<TasksWithPagination | ResposeCode> {
   try {
-    const response = await instance(token).get(`task/getAll?page=${page}&pageSize=${pageSize}`)
+    const response = await instanceTask(token).get(`task/getAll?page=${page}&pageSize=${pageSize}`)
     return await response.data
   } catch (error) {
     const responseError = error as AxiosError

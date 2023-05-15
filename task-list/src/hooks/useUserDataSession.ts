@@ -9,13 +9,12 @@ import { UserResponse } from '../@types'
 
 type Authentication = 'isAuthenticated' | 'notAuthenticated'
 
-
 export function useUserDataSession() {
   const [isAuthenticated, setIsAuthenticated] = useState<Authentication>()
   const getSessionData = localStorage.getItem('userDataSession')
   const sessionData = getSessionData ? JSON.parse(getSessionData) as UserResponse : {} as UserResponse
   const userData = sessionData.user
-  const token = sessionData.token
+  const token = sessionData.token as string
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -27,7 +26,7 @@ export function useUserDataSession() {
   }, [isAuthenticated])
 
   async function checkAuthentication() {
-    const data = await getAllTasksWithPagination('1', '10', token)
+    const data = await getAllTasksWithPagination(token, '1', '10')
 
     if (!getSessionData) {
       setIsAuthenticated('notAuthenticated')

@@ -1,8 +1,8 @@
-import { instance } from '../instance'
+import { instanceUser } from '../instance'
 
 // Types
 import { UserResponse } from '../../@types'
 
 export async function getUserByEmail(email: string) {
-  return await instance().get<UserResponse>(`/user/${email}`)
+  return await instanceUser().get<UserResponse>(`/user/${email}`)
 }
