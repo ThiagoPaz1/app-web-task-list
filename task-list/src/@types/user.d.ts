@@ -5,8 +5,10 @@ export type CreateUser = {
 }
 
 export type UserResponse = {
-  id: string
-  name: string
-  email: string
+  user: {
+    id: string
+    name: string
+    email: string
+  }
   token?: string
 }
