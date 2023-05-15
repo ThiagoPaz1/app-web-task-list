@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 // Services
-import { getAllTasksWithPagination } from '../services/tasks/getAllTasksWithPagination'
+import { getAllTasksWithPagination } from '../services/tasks'
 
 // Types
 import { UserResponse } from '../@types'
@@ -48,6 +48,7 @@ export function useUserDataSession() {
 
   return {
     userData,
+    token,
     verifyAuthentication
   }
 }
