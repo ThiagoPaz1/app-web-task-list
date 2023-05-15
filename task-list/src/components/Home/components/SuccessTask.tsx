@@ -7,10 +7,10 @@ import { SuccessProps } from "../types"
 import styles from '../styles/successTask.module.css'
 
 const successIconStyle = {
-  fontSize: 100,
+  fontSize: '6em',
   border: '2px #2F7D32 solid',
   borderRadius: '50%',
-  marginBottom: '1rem'
+  marginTop: '1rem'
 }
 
 export function SuccessTask({ message }: SuccessProps) {

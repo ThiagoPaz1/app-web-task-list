@@ -1,10 +1,13 @@
 import { useState, useEffect } from 'react'
-import { 
+import {
   Modal,
   Button,
   TextField,
   CircularProgress
 } from '@mui/material'
+
+// Components
+import { SuccessTask } from './SuccessTask'
 
 // Services
 import { createNewTask } from '../../../services/tasks'
@@ -25,6 +28,7 @@ export function CreateTaskModal({ openModal, closeModal, token }: CreateTaskModa
   const [taskData, setTaskData] = useState<TaskData>({} as TaskData)
   const [errorInField, setErrorInField] = useState<ErrorInFields>(defautlValuesErrorInField)
   const [isLoading, setIsLoading] = useState(false)
+  const [taskCreated, setTaskCreated] = useState(false)
 
   useEffect(() => {
     validateFieldsValues(taskData)
@@ -83,60 +87,66 @@ export function CreateTaskModal({ openModal, closeModal, token }: CreateTaskModa
     await createNewTask(taskData, token)
 
     setIsLoading(false)
+    setTaskCreated(true)
   }
 
   return (
     <Modal open={openModal} onClose={closeModal}>
       <div className={styles.containerCreateTaskModal}>
-        <h2>
-          Crie sua tarefa
-        </h2>
+        {
+          taskCreated ?
+            <SuccessTask message="Tarefa criada com sucesso!" /> :
+            <>
+              <h2>
+                Crie sua tarefa
+              </h2>
 
-        <form>
-          <TextField
-            id="outlined-basic"
-            name="title"
-            // margin="normal"
-            label="Digite um título"
-            variant="outlined"
-            size="small"
-            error={errorInField.title === 'errorFound'}
-            helperText={(errorInField.title === 'errorFound') && "O título precisa ter ao menos 2 caracteres"}
-            onChange={(event: ChangeInput) => handleChange(event)}
-            sx={{ width: '70%'}}
-          />
+              <form>
+                <TextField
+                  id="outlined-basic"
+                  name="title"
+                  label="Digite um título"
+                  variant="outlined"
+                  size="small"
+                  error={errorInField.title === 'errorFound'}
+                  helperText={(errorInField.title === 'errorFound') && "O título precisa ter ao menos 2 caracteres"}
+                  onChange={(event: ChangeInput) => handleChange(event)}
+                  sx={{ width: '70%' }}
+                />
 
-          <TextField
-            id="outlined-basic"
-            name="description"
-            margin="dense"
-            label="Digite uma descrição"
-            variant="outlined"
-            size="small"
-            error={errorInField.description === 'errorFound'}
-            helperText={(errorInField.description === 'errorFound') && "A descrição precisa ter ao menos 2 caracteres"}
-            onChange={(event: ChangeInput) => handleChange(event)}
-            sx={{ width: '70%'}}
-          />
+                <TextField
+                  id="outlined-basic"
+                  name="description"
+                  margin="dense"
+                  label="Digite uma descrição"
+                  variant="outlined"
+                  size="small"
+                  error={errorInField.description === 'errorFound'}
+                  helperText={(errorInField.description === 'errorFound') && "A descrição precisa ter ao menos 2 caracteres"}
+                  onChange={(event: ChangeInput) => handleChange(event)}
+                  sx={{ width: '70%' }}
+                />
 
-          {
-            isLoading ?
-              <CircularProgress /> :
-              <Button
-                color="success"
-                variant="contained"
-                onClick={handleCreateNewTask}
-                disabled={buttonDisabled()}
-                sx={{ 
-                  width: '40%',
-                  marginTop: '1rem',
-                  fontWeight: 'bolder',
-                }}
-              >
-                Criar tarefa
-              </Button>
-          }
-        </form>
+                {
+                  isLoading ?
+                    <CircularProgress /> :
+                    <Button
+                      color="success"
+                      variant="contained"
+                      onClick={handleCreateNewTask}
+                      disabled={buttonDisabled()}
+                      sx={{
+                        width: '40%',
+                        marginTop: '1rem',
+                        fontWeight: 'bolder',
+                      }}
+                    >
+                      Criar tarefa
+                    </Button>
+                }
+              </form>
+            </>
+        }
       </div>
     </Modal>
   )
