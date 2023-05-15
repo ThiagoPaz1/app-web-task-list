@@ -1,7 +1,7 @@
 import { useState } from 'react'
 
 // Components
-import { Form } from './components/Form'
+import { UserForm } from './components/UserForm'
 import { Success } from './components/Success'
 
 // Services
@@ -30,7 +30,7 @@ export function RegisterUser() {
             <h1>
               Cadastro
             </h1>
-            <Form createUser={handleCreateUser} />
+            <UserForm createUser={handleCreateUser} />
           </>
       }
     </div>

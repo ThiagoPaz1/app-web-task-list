@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { TextField, CircularProgress, Button } from '@mui/material'
 
 // Components
-import { AlertComponent } from './Alert'
+import { AlertComponent } from '../../Alert'
 
 // Services
 import { getUserByEmail } from '../../../services/users'
@@ -12,7 +12,7 @@ import { FormProps, ErrorInFields, UserData } from '../types'
 import { ChangeInput } from '../../../@types'
 
 // Styles and images
-import styles from '../styles/form.module.css'
+import styles from '../styles/userForm.module.css'
 
 const defautlValuesErrorInField: ErrorInFields = {
   name: 'notVerified',
@@ -20,7 +20,7 @@ const defautlValuesErrorInField: ErrorInFields = {
   password: 'notVerified'
 }
 
-export function Form({ createUser }: FormProps) {
+export function UserForm({ createUser }: FormProps) {
   const [userData, setUserData] = useState<UserData>({} as UserData)
   const [errorInField, setErrorInField] = useState<ErrorInFields>(defautlValuesErrorInField)
   const [emailAlreadyExists, setEmailAlreadyExists] = useState(false)
@@ -128,11 +128,12 @@ export function Form({ createUser }: FormProps) {
         <AlertComponent
           open={emailAlreadyExists}
           handleClose={() => setEmailAlreadyExists(false)}
+          description="Esse e-mail já esta sendo usado."
+          severity="error"
         />
       }
             
       <TextField
-        value={userData.name}
         id="outlined-basic"
         name="name"
         label="Digite seu nome"
@@ -146,7 +147,6 @@ export function Form({ createUser }: FormProps) {
       />
 
       <TextField
-        value={userData.email}
         id="outlined-basic"
         name="email"
         label="Digite seu e-mail"
@@ -160,7 +160,6 @@ export function Form({ createUser }: FormProps) {
       />
 
       <TextField
-        value={userData.password}
         id="outlined-basic"
         name="password"
         type="password"
