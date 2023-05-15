@@ -8,8 +8,8 @@ export function Home() {
   }, [])
   
   async function request() {
-    const {token} = JSON.parse(localStorage.getItem('userDataSession') as string)
-
+    const {user, token} = JSON.parse(localStorage.getItem('userDataSession') as string)
+    console.log(user, token)
     const data = await getAllTasksWithPagination('1', '10', token)
   }
 

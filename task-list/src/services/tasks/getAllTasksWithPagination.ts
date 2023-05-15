@@ -19,12 +19,10 @@ export async function getAllTasksWithPagination(
   token?: string): Promise<TasksWithPagination | ResposeCode> {
   try {
     const response = await instance(token).get(`task/getAll?page=${page}&pageSize=${pageSize}`)
-    console.log(response.data)
-    return response.data
+    return await response.data
   } catch (error) {
     const responseError = error as AxiosError
     const responseCode = responseError.response?.status as number
-    console.log(responseCode)
     return responseCode
   }
 }
