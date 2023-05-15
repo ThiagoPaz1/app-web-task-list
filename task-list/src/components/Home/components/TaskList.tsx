@@ -14,14 +14,14 @@ import { TableActions } from './TableActions'
 // Types
 import { TaskListProps } from '../types/taskList'
 
-export function TaskList({ tasks }: TaskListProps) {
+export function TaskList({ taskData }: TaskListProps) {
   return (
     <>
       {
-        !tasks.length ?
+        taskData?.tasks.length ?
           <TableContainer
             component={Paper}
-            sx={{marginTop: '5rem'}}
+            sx={{ marginTop: '3.5rem' }}
           >
             <Table sx={{ minWidth: 650 }} aria-label="simple table">
               <TableHead>
@@ -33,15 +33,21 @@ export function TaskList({ tasks }: TaskListProps) {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {tasks.map((row) => (
+                {taskData?.tasks.map((row) => (
                   <TableRow
                     key={row.id}
                     sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                   >
-                    <TableCell component="th" scope="row">{row.title}</TableCell>
-                    <TableCell>{row.description}</TableCell>
-                    <TableCell>{row.created_at}</TableCell>
-                    <TableCell>
+                    <TableCell
+                      align="center"
+                      component="th"
+                      scope="row"
+                    >
+                      {row.title}
+                    </TableCell>
+                    <TableCell align="center">{row.description}</TableCell>
+                    <TableCell align="center">{row.created_at}</TableCell>
+                    <TableCell align="center">
                       <TableActions />
                     </TableCell>
                   </TableRow>

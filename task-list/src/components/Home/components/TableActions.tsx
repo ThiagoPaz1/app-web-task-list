@@ -6,7 +6,11 @@ export function TableActions() {
       <Button variant="contained">
         Editar
       </Button>
-      <Button variant="contained" color="error">
+      <Button
+        variant="contained"
+        color="error"
+        sx={{marginLeft: '1rem'}}
+      >
         Apagar
       </Button>
     </div>

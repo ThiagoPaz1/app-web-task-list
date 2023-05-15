@@ -1,5 +1,5 @@
 import { useEffect, useState, useContext } from 'react'
-import { Button } from '@mui/material'
+import { Button, CircularProgress } from '@mui/material'
 
 // Components
 import { Profile } from './components/Profile'
@@ -15,6 +15,7 @@ import styles from './styles/home.module.css'
 
 export function Home() {
   const [showCreateTaskModal, setShowCreateTaskModal] = useState(false)
+  const [showEditTaskModal, setShowEditTaskModal] = useState(false)
   const { verifyAuthentication, userData, token } = useUserDataSession()
   const { getTasks, tasks } = useContext(TaskContext)
 
@@ -22,8 +23,6 @@ export function Home() {
     verifyAuthentication()
     getTasks()
   }, [])
-
-  console.log("tarefas =>>>>>>>", tasks)
 
   return (
     <div className={styles.containerHome}>
@@ -37,13 +36,17 @@ export function Home() {
         <Button
           variant="contained"
           onClick={() => setShowCreateTaskModal(true)}
-          sx={{fontWeight: 'bolder'}}
+          sx={{fontWeight: 'bolder', marginTop: '2rem'}}
         >
           Criar nova tarefa
         </Button>
       </div>
 
-      <TaskList tasks={[]}/>
+      {
+        tasks?.tasks ?
+        <TaskList taskData={tasks}/> :
+        <CircularProgress size={80} sx={{marginTop: '5rem'}}/>
+      }
 
       {
         showCreateTaskModal &&

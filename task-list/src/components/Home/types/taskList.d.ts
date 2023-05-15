@@ -1,5 +1,5 @@
-import { Task } from '../../../@types'
+import { TasksWithPagination } from '../../../@types'
 
 export type TaskListProps = {
-  tasks: Task[]
+  taskData: TasksWithPagination
 } 
