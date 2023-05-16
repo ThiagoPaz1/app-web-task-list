@@ -7,6 +7,7 @@ import { CreateTaskModal } from './components/CreateTaskModal'
 import { TaskList } from './components/TaskList'
 import { EditTaskModal } from './components/EditTaskModal'
 import { DeleteTaskModal } from './components/DeleteTaskModal'
+import { Filters } from './components/Filters'
 
 // Hooks and contexts
 import { useUserDataSession } from '../../hooks/useUserDataSession'
@@ -47,7 +48,7 @@ export function Home() {
       <h1>
         Gerenciador de tarefas
       </h1>
-
+      <Filters/>
       <div>
         <Button
           variant="contained"
