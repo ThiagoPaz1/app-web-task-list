@@ -1,8 +1,8 @@
-import { instance } from '../instance'
+import { instanceUser } from '../instance'
 
 // Types
 import { CreateUser } from '../../@types'
 
 export async function createNewUser(user: CreateUser): Promise<void> {
-  await instance().post('/user', user)
+  await instanceUser().post('/user', user)
 }

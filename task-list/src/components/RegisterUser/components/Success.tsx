@@ -5,7 +5,7 @@ import { Check } from '@mui/icons-material'
 // Styles and images
 import styles from '../styles/success.module.css'
 
-const successIcon = {
+const successIconStyle = {
   fontSize: 100,
   border: '2px #2F7D32 solid',
   borderRadius: '50%',
@@ -21,7 +21,7 @@ export function Success() {
 
   return (
     <div className={styles.containerSuccess}>
-      <Check color="success" sx={successIcon} />
+      <Check color="success" sx={successIconStyle} />
       <h2>
         Cadastro realizado com sucesso!
       </h2>
