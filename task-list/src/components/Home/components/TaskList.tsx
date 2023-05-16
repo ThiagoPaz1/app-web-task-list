@@ -5,11 +5,12 @@ import {
   TableRow,
   Paper,
   TableCell,
-  TableHead
+  TableHead,
 } from '@mui/material'
 
 // Components
 import { TableActions } from './TableActions'
+import { PaginationComponent } from './Pagination'
 
 // Types
 import { TaskListProps } from '../types/taskList'
@@ -61,6 +62,7 @@ export function TaskList({
                 ))}
               </TableBody>
             </Table>
+            <PaginationComponent />
           </TableContainer> :
           <h1>
             Sem tarefas criadas no momento :/
