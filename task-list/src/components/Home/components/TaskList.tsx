@@ -14,7 +14,10 @@ import { TableActions } from './TableActions'
 // Types
 import { TaskListProps } from '../types/taskList'
 
-export function TaskList({ taskData }: TaskListProps) {
+export function TaskList({
+  taskData,
+  openEditTaskModal,
+}: TaskListProps) {
   return (
     <>
       {
@@ -48,7 +51,9 @@ export function TaskList({ taskData }: TaskListProps) {
                     <TableCell align="center">{row.description}</TableCell>
                     <TableCell align="center">{row.created_at}</TableCell>
                     <TableCell align="center">
-                      <TableActions />
+                      <TableActions
+                        openEditTaskModal={() => openEditTaskModal(row.id, row.title, row.description)}
+                      />
                     </TableCell>
                   </TableRow>
                 ))}

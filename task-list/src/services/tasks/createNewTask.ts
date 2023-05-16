@@ -6,5 +6,5 @@ type CreateTask = {
 }
 
 export async function createNewTask(body: CreateTask, token: string) {
-  await instanceTask(token).post(`/task`, body)
+  await instanceTask(token).post('/task', body)
 }

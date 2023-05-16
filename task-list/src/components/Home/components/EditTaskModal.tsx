@@ -1,4 +1,5 @@
 import { useState, useEffect, useContext } from 'react'
+
 import {
   Modal,
   Button,
@@ -9,35 +10,39 @@ import {
 // Components
 import { SuccessTask } from './SuccessTask'
 
-// Services
-import { createNewTask } from '../../../services/tasks'
-
 // Hooks and contexts
 import { useUserDataSession } from '../../../hooks/useUserDataSession'
 import { TaskContext } from '../../../context/taskContext'
 
-// Types
-import { CreateTaskModalProps, TaskData, ErrorInFields } from '../types'
+// Types 
+import { TaskData, ErrorInFields, EditTaskModalProps } from '../types'
 import { ChangeInput } from '../../../@types'
 
 // Styles and images
-import styles from '../styles/createTaskModal.module.css'
+import styles from '../styles/editTaskModal.module.css'
 
 const defautlValuesErrorInField: ErrorInFields = {
   title: 'notVerified',
   description: 'notVerified',
 }
 
-export function CreateTaskModal({ openModal, closeModal, token }: CreateTaskModalProps) {
+export function EditTaskModal({
+  id,
+  title,
+  description,
+  open,
+  onClose
+}: EditTaskModalProps) {
   const [taskData, setTaskData] = useState<TaskData>({} as TaskData)
   const [errorInField, setErrorInField] = useState<ErrorInFields>(defautlValuesErrorInField)
   const [isLoading, setIsLoading] = useState(false)
-  const [taskCreated, setTaskCreated] = useState(false)
+  const [taskUpdate, setTaskUpdate] = useState(false)
   const { verifyAuthentication } = useUserDataSession()
   const { getTasks } = useContext(TaskContext)
 
   useEffect(() => {
     verifyAuthentication()
+    setTaskData({ title, description })
   }, [])
 
   useEffect(() => {
@@ -91,22 +96,12 @@ export function CreateTaskModal({ openModal, closeModal, token }: CreateTaskModa
     }
   }
 
-  async function handleCreateNewTask() {
-    setIsLoading(true)
-
-    await createNewTask(taskData, token)
-    
-    getTasks()
-    setIsLoading(false)
-    setTaskCreated(true)
-  }
-
   return (
-    <Modal open={openModal} onClose={closeModal}>
-      <div className={styles.containerCreateTaskModal}>
+    <Modal open={open} onClose={onClose}>
+      <div className={styles.containerEditTaskModal}>
         {
-          taskCreated ?
-            <SuccessTask message="Tarefa criada com sucesso!" /> :
+          taskUpdate ?
+            <SuccessTask message="Tarefa editada com sucesso!" /> :
             <>
               <h2>
                 Crie sua tarefa
@@ -116,18 +111,20 @@ export function CreateTaskModal({ openModal, closeModal, token }: CreateTaskModa
                 <TextField
                   id="outlined-basic"
                   name="title"
+                  value={taskData.title}
                   label="Digite um título"
                   variant="outlined"
                   size="small"
                   error={errorInField.title === 'errorFound'}
                   helperText={(errorInField.title === 'errorFound') && "O título precisa ter ao menos 2 caracteres"}
                   onChange={(event: ChangeInput) => handleChange(event)}
-                  sx={{ width: '70%' }}
+                  sx={{ width: '90%' }}
                 />
 
                 <TextField
                   id="outlined-basic"
                   name="description"
+                  value={taskData.description}
                   margin="dense"
                   label="Digite uma descrição"
                   variant="outlined"
@@ -135,25 +132,39 @@ export function CreateTaskModal({ openModal, closeModal, token }: CreateTaskModa
                   error={errorInField.description === 'errorFound'}
                   helperText={(errorInField.description === 'errorFound') && "A descrição precisa ter ao menos 2 caracteres"}
                   onChange={(event: ChangeInput) => handleChange(event)}
-                  sx={{ width: '70%' }}
+                  sx={{ width: '90%' }}
                 />
 
                 {
                   isLoading ?
                     <CircularProgress /> :
-                    <Button
-                      color="success"
-                      variant="contained"
-                      onClick={handleCreateNewTask}
-                      disabled={buttonDisabled()}
-                      sx={{
-                        width: '40%',
-                        marginTop: '1rem',
-                        fontWeight: 'bolder',
-                      }}
-                    >
-                      Criar tarefa
-                    </Button>
+                    <div className={styles.containerButtons}>
+                      <Button
+                        color="success"
+                        variant="contained"
+                        // onClick={handleCreateNewTask}
+                        disabled={buttonDisabled()}
+                        sx={{
+                          width: '40%',
+                          fontWeight: 'bolder',
+                        }}
+                      >
+                        Salvar mudanças
+                      </Button>
+
+                      <Button
+                        color="error"
+                        variant="contained"
+                        onClick={() => onClose()}
+                        sx={{
+                          width: '40%',
+                          marginLeft: '1rem',
+                          fontWeight: 'bolder',
+                        }}
+                      >
+                        Cancelar
+                      </Button>
+                    </div>
                 }
               </form>
             </>
