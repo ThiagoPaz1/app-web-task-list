@@ -90,6 +90,7 @@ export function UserForm({ createUser }: FormProps) {
 
   function buttonDisabled(): boolean {
     const foundErrorFieldsValues = Object.values(errorInField).find(i => i === 'notVerified' || i === 'errorFound')
+
     if (foundErrorFieldsValues) {
       return true
     } else {

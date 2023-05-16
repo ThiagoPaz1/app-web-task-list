@@ -8,7 +8,8 @@ export function AlertComponent({
   open,
   handleClose,
   severity,
-  autoHideDuration }: AlertProps) {
+  autoHideDuration
+}: AlertProps) {
   return (
     <Snackbar
       open={open}
