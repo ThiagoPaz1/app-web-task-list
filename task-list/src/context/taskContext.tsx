@@ -1,13 +1,13 @@
 import { createContext, ReactNode, useState, useEffect } from 'react'
 
 // Services
-import { getAllTasksWithPagination } from '../services/tasks'
+import { getAllTasksWithPagination, taskFilter } from '../services/tasks'
 
 // Hooks and contexts
 import { useUserDataSession } from '../hooks/useUserDataSession'
 
 // Types
-import { TasksWithPagination } from '../@types'
+import { Task, TasksWithPagination } from '../@types'
 
 type TasksContextProps = {
   children: ReactNode
@@ -15,7 +15,8 @@ type TasksContextProps = {
 
 type TaskContextData = {
   tasks: TasksWithPagination
-  getTasks: (page?: string, pageSize?: string) => void 
+  getTasks: (page?: string, pageSize?: string) => void
+  tasksFilter: (title?: string, date?: string) => void 
 } 
 
 export const TaskContext = createContext<TaskContextData>({} as TaskContextData)
@@ -26,6 +27,7 @@ export function TasksProvider({ children }: TasksContextProps) {
 
   useEffect(() => {
     getTasks()
+    tasksFilter()
   }, []) 
 
   async function getTasks(page?: string, pageSize?: string) {
@@ -44,9 +46,29 @@ export function TasksProvider({ children }: TasksContextProps) {
       setTasks(tasksData)
     }
   }
+
+  async function tasksFilter(title?: string, date?: string) {
+    const titleAdjusted = title ? title : ''
+    const dateAdjusted = date ? date : ''
+    const data = await taskFilter(token, titleAdjusted, dateAdjusted)
+
+    if (data === 401) {
+      setTasks({
+        totalPages: 0,
+        tasksTotal: 0,
+        tasks: []
+      })
+    } else {
+      setTasks({
+        ...tasks,
+        tasks: data as Task[]
+      })
+    }
+
+  }
   
   return (
-    <TaskContext.Provider value={{tasks, getTasks}}>
+    <TaskContext.Provider value={{tasks, getTasks, tasksFilter}}>
       { children }
     </TaskContext.Provider>
   )
