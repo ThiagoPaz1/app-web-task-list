@@ -18,7 +18,7 @@ export function PaginationComponent() {
   const [pageSize, setPageSize] = useState('10')
   const [page, setPage] = useState(1)
   const { getTasks, tasks } = useContext(TaskContext)
-  console.log('TAREFAS =>>', tasks)
+
   useEffect(() => {
     getTasks(String(page), String(pageSize))
   }, [pageSize, page])
@@ -49,7 +49,6 @@ export function PaginationComponent() {
             onChange={handleChangePageSize}
             sx={{ width: '5rem', height: '3rem' }}
           >
-            <MenuItem value={2}>2</MenuItem>
             <MenuItem value={10}>10</MenuItem>
             <MenuItem value={25}>25</MenuItem>
             <MenuItem value={50}>50</MenuItem>
