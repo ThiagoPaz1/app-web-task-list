@@ -2,8 +2,9 @@ import { ProfileProps } from './profile'
 import { CreateTaskModalProps, TaskData, ErrorInFields } from './createTaskModal'
 import { SuccessProps } from './success'
 import { TableActionsProps } from './tableActions'
-import { EditTaskModalData } from './home'
+import { EditTaskModalData, DeleteTaskModalData } from './home'
 import { EditTaskModalProps } from './editTaskModal'
+import { DeleteTaskModalProps } from './deleteTaskModal'
 
 export {
   ProfileProps,
@@ -13,5 +14,7 @@ export {
   SuccessProps,
   TableActionsProps,
   EditTaskModalData,
-  EditTaskModalProps
+  EditTaskModalProps,
+  DeleteTaskModalProps,
+  DeleteTaskModalData
 }

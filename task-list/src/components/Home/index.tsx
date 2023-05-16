@@ -5,14 +5,13 @@ import { Button, CircularProgress } from '@mui/material'
 import { Profile } from './components/Profile'
 import { CreateTaskModal } from './components/CreateTaskModal'
 import { TaskList } from './components/TaskList'
-
-// Components
 import { EditTaskModal } from './components/EditTaskModal'
+import { DeleteTaskModal } from './components/DeleteTaskModal'
 
 // Hooks and contexts
 import { useUserDataSession } from '../../hooks/useUserDataSession'
 import { TaskContext } from '../../context/taskContext'
-import { EditTaskModalData } from './types'
+import { EditTaskModalData, DeleteTaskModalData } from './types'
 
 // Styles and images
 import styles from './styles/home.module.css'
@@ -20,7 +19,9 @@ import styles from './styles/home.module.css'
 export function Home() {
   const [showCreateTaskModal, setShowCreateTaskModal] = useState(false)
   const [showEditTaskModal, setShowEditTaskModal] = useState(false)
+  const [showDeleteTaskModal, setShowDeleteTaskModal] = useState(false)
   const [editTaskModalData, setEditTaskModalData] = useState<EditTaskModalData>({} as EditTaskModalData)
+  const [deleteTaskModalData, setDeleteTaskModalData] = useState<DeleteTaskModalData>({} as DeleteTaskModalData)
   const { verifyAuthentication, userData, token } = useUserDataSession()
   const { getTasks, tasks } = useContext(TaskContext)
 
@@ -32,6 +33,11 @@ export function Home() {
   function handleEditTaskModalData(id: string, title: string, description: string) {
     setShowEditTaskModal(true)
     setEditTaskModalData({id, title, description})
+  }
+
+  function handleDeleteTaskModalData(id: string, title: string) {
+    setShowDeleteTaskModal(true)
+    setDeleteTaskModalData({id, title})
   }
 
   return (
@@ -57,6 +63,7 @@ export function Home() {
         <TaskList
           taskData={tasks}
           openEditTaskModal={handleEditTaskModalData}
+          openDeleteTaskModal={handleDeleteTaskModalData}
         /> :
         <CircularProgress size={80} sx={{marginTop: '5rem'}}/>
       }
@@ -79,6 +86,15 @@ export function Home() {
           description={editTaskModalData?.description}
           open={showEditTaskModal}
           onClose={() => setShowEditTaskModal(false)}
+        />
+      }
+
+      {
+        <DeleteTaskModal
+          id={deleteTaskModalData.id}
+          title={deleteTaskModalData.title}
+          open={showDeleteTaskModal}
+          onClose={() => setShowDeleteTaskModal(false)}
         />
       }
     </div>

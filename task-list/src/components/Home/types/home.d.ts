@@ -3,3 +3,5 @@ export type EditTaskModalData = {
   title: string
   description: string
 }
+
+export type DeleteTaskModalData = Omit<EditTaskModalData, 'description'>
