@@ -10,6 +10,9 @@ import {
 // Components
 import { SuccessTask } from './SuccessTask'
 
+// Service
+import { taskUpdate } from '../../../services/tasks'
+
 // Hooks and contexts
 import { useUserDataSession } from '../../../hooks/useUserDataSession'
 import { TaskContext } from '../../../context/taskContext'
@@ -36,8 +39,8 @@ export function EditTaskModal({
   const [taskData, setTaskData] = useState<TaskData>({} as TaskData)
   const [errorInField, setErrorInField] = useState<ErrorInFields>(defautlValuesErrorInField)
   const [isLoading, setIsLoading] = useState(false)
-  const [taskUpdate, setTaskUpdate] = useState(false)
-  const { verifyAuthentication } = useUserDataSession()
+  const [taskUpdated, setTaskUpdated] = useState(false)
+  const { verifyAuthentication, token } = useUserDataSession()
   const { getTasks } = useContext(TaskContext)
 
   useEffect(() => {
@@ -96,11 +99,21 @@ export function EditTaskModal({
     }
   }
 
+  async function handleTaskUpdate() {
+    setIsLoading(true)
+
+    await taskUpdate(token, id, taskData)
+    
+    getTasks()
+    setIsLoading(false)
+    setTaskUpdated(true)
+  }
+
   return (
     <Modal open={open} onClose={onClose}>
       <div className={styles.containerEditTaskModal}>
         {
-          taskUpdate ?
+          taskUpdated ?
             <SuccessTask message="Tarefa editada com sucesso!" /> :
             <>
               <h2>
@@ -142,7 +155,7 @@ export function EditTaskModal({
                       <Button
                         color="success"
                         variant="contained"
-                        // onClick={handleCreateNewTask}
+                        onClick={handleTaskUpdate}
                         disabled={buttonDisabled()}
                         sx={{
                           width: '40%',
