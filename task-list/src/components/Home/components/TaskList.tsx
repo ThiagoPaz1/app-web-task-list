@@ -65,7 +65,7 @@ export function TaskList({
             <PaginationComponent />
           </TableContainer> :
           <h1>
-            Sem tarefas criadas no momento :/
+            Não foi encontrado tarefas no momento :/
           </h1>
       }
     </>
