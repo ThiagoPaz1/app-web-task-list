@@ -47,8 +47,13 @@ export function DeleteTaskModal({
     setTaskDeleted(true)
   }
 
+  function handleOnClose() {
+    onClose()
+    setTaskDeleted(false)
+  }
+
   return (
-    <Modal open={open} onClose={onClose}>
+    <Modal open={open} onClose={handleOnClose}>
       <div className={styles.containerDeleteTaskModal}>
         {
           taskDeleted ?
